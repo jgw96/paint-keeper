@@ -14,6 +14,7 @@
   "dependencies": {
     "@pwabuilder/pwainstall": "^1.6.7",
     "@vaadin/router": "^1.7.4",
+    "idb-keyval": "^6.0.3",
     "lit": "^2.0.2",
     "workbox-build": "^6.3.0",
     "workbox-core": "^6.3.0",

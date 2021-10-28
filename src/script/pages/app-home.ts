@@ -1,8 +1,12 @@
 import { LitElement, css, html } from 'lit';
-import { property, customElement } from 'lit/decorators.js';
+import { property, customElement, state } from 'lit/decorators.js';
+
 
 // For more info on the @pwabuilder/pwainstall component click here https://github.com/pwa-builder/pwa-install
 import '@pwabuilder/pwainstall';
+
+import '../components/camera';
+import '../components/color-display';
 
 @customElement('app-home')
 export class AppHome extends LitElement {
@@ -10,58 +14,20 @@ export class AppHome extends LitElement {
   // check out this link https://lit.dev/docs/components/properties/
   @property() message = 'Welcome!';
 
+  @state() colorPicked: { color: Array<number>, bitmap: ImageBitmap } | undefined;
+
   static get styles() {
     return css`
-      #welcomeBar {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-      }
-
-      #welcomeBar fast-card {
-        margin-bottom: 12px;
-      }
-
-      #welcomeCard,
-      #infoCard {
-        padding: 18px;
-        padding-top: 0px;
-      }
-
-      pwa-install {
-        position: absolute;
-        bottom: 16px;
-        right: 16px;
-      }
-
-      button {
-        cursor: pointer;
-      }
-
-      @media (min-width: 1200px) {
-        #welcomeCard,
-        #infoCard {
-          width: 40%;
-        }
-      }
-
-      @media (screen-spanning: single-fold-vertical) {
-        #welcomeBar {
-          flex-direction: row;
-          align-items: flex-start;
-          justify-content: space-between;
-        }
-
-        #welcomeCard {
-          margin-right: 64px;
-        }
-      }
-
-      @media(prefers-color-scheme: light) {
-        fast-card {
-          --background-color: white;
-        }
+      #saved-colors {
+        font-weight: bold;
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 6px;
+        color: white;
+        position: fixed;
+        right: 10px;
+        top: 10px;
+        background: #181818;
       }
     `;
   }
@@ -86,82 +52,19 @@ export class AppHome extends LitElement {
     }
   }
 
+  handleColor(details: { color: Array<number>, bitmap: ImageBitmap }) {
+    console.log('color from event', details);
+    this.colorPicked = details;
+  }
+
   render() {
     return html`
       <div>
-        <div id="welcomeBar">
-          <fast-card id="welcomeCard">
-            <h2>${this.message}</h2>
+        <a id="saved-colors" href="/about">My Saved Colors</a>
 
-            <p>
-              For more information on the PWABuilder pwa-starter, check out the
-              <fast-anchor
-                href="https://github.com/pwa-builder/pwa-starter/blob/master/README.md"
-                appearance="hypertext"
-                >README</fast-anchor
-              >.
-            </p>
-
-            <p>
-              Welcome to the
-              <fast-anchor href="https://pwabuilder.com" appearance="hypertext"
-                >PWABuilder</fast-anchor
-              >
-              pwa-starter! Be sure to head back to
-              <fast-anchor href="https://pwabuilder.com" appearance="hypertext"
-                >PWABuilder</fast-anchor
-              >
-              when you are ready to ship this PWA to the Microsoft, Google Play
-              and Samsung Galaxy stores!
-            </p>
-
-            ${'share' in navigator
-              ? html`<fast-button appearance="primary" @click="${this.share}"
-                  >Share this Starter!</fast-button
-                >`
-              : null}
-          </fast-card>
-
-          <fast-card id="infoCard">
-            <h2>Technology Used</h2>
-
-            <ul>
-              <li>
-                <fast-anchor
-                  href="https://www.typescriptlang.org/"
-                  appearance="hypertext"
-                  >TypeScript</fast-anchor
-                >
-              </li>
-
-              <li>
-                <fast-anchor
-                  href="https://lit.dev"
-                  appearance="hypertext"
-                  >lit</fast-anchor
-                >
-              </li>
-
-              <li>
-                <fast-anchor
-                  href="https://www.fast.design/docs/components/getting-started"
-                  appearance="hypertext"
-                  >FAST Components</fast-anchor
-                >
-              </li>
-
-              <li>
-                <fast-anchor
-                  href="https://vaadin.github.io/vaadin-router/vaadin-router/demo/#vaadin-router-getting-started-demos"
-                  appearance="hypertext"
-                  >Vaadin Router</fast-anchor
-                >
-              </li>
-            </ul>
-          </fast-card>
-        </div>
-
-        <pwa-install>Install PWA Starter</pwa-install>
+        <app-camera @color-saved="${(event: CustomEvent) => this.handleColor(event.detail)}"></app-camera>
+        <color-display .color="${this.colorPicked}"></color-display>
+        <!--<pwa-install>Install PWA Starter</pwa-install>-->
       </div>
     `;
   }
