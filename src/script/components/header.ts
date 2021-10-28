@@ -35,7 +35,7 @@ export class AppHeader extends LitElement {
         margin-left: 10px;
       }
 
-      @media(prefers-color-scheme: light) {
+      @media (prefers-color-scheme: light) {
         header {
           color: black;
         }

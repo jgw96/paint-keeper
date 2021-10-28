@@ -11,7 +11,6 @@ import '../components/header';
 export class AppIndex extends LitElement {
   static get styles() {
     return css`
-
       #routerOutlet > * {
         width: 100% !important;
       }

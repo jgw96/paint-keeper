@@ -16,6 +16,7 @@ You can find more details about it [here](https://blog.pwabuilder.com/posts/buil
 **[Live Demo](https://pwa-starter-demo.glitch.me/)**
 
 ## Getting Started
+
 First, you will need to install Git and a NodeJS environment on your device. Luckily, Windows makes it very easy to install and setup these tools [Set up NodeJS on native Windows | Microsoft Docs](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
 
 Once you have Git and Node installed, you are now ready to grab a copy of the starter! First, you will need a Github account as we did above, which you can create at [GitHub](https://github.com/) . Once you have a Github account you can then visit the code repository for the PWABuilder pwa-starter [here](https://github.com/pwa-builder/pwa-starter) .
@@ -27,6 +28,7 @@ Now, tap the green "Use this template" button and follow the directions on the l
 You can now start coding your application just like you would with an app generated using create-react-app or the Angular CLI! For more information, check out our post [here](https://blog.pwabuilder.com/posts/building-pwas-with-web-components!/).
 
 ### Supported Browsers
+
 - Edge
 - Chrome
 - Firefox
@@ -46,16 +48,13 @@ Run `npm run build`, the `dist/` folder will contain your built PWA. The product
 
 Once your PWA is ready to deploy we recommend [Azure static website hosting](https://docs.microsoft.com/en-us/learn/modules/publish-app-service-static-web-app-api/) for deploying your PWA.
 
-
 ### Packaging
 
 Many app stores, including the Microsoft Store and the Google Play Store support PWAs. To package your PWA for deployment to these app stores head back to https://pwabuilder.com/, put in your URL and hit `Build My PWA`.
 
-
 ## Dual Screen support
 
 The default layout of this starter is dual screen friendly. We do this [here](https://github.com/pwa-builder/pwa-starter/blob/main/src/script/pages/app-home.ts#L41) by using the [CSS Spanning API](https://github.com/MicrosoftEdge/MSEdgeExplainers/blob/main/Foldables/explainer.md#proposal-css-primitives-for-building-dual-screen-layouts) to adjust the layout when the app is spanned on a dual screen device. As you start to build your PWA you can use these CSS features to ensure that your PWA looks good in all of the [dual screen postures](https://docs.microsoft.com/en-us/dual-screen/introduction#dual-screen-overview). For more info on developing PWAs for dual screen devices you can check out the [Microsoft docs here](https://docs.microsoft.com/en-us/dual-screen/cross-platform/#build-web-experiences).
-
 
 ## Addons
 
@@ -71,10 +70,9 @@ For Authentication you can use the [PWABuilder pwa-auth](https://github.com/pwa-
 
 😎😎 Double bonus: It uses the new [Credential Management APIs](https://developers.google.com/web/fundamentals/security/credential-management) to speed through sign-ins without bulky pop-ups or redirects.
 
-
 ## More Resources
-- [The pwa-starter wiki](https://github.com/pwa-builder/pwa-starter/wiki/)
 
+- [The pwa-starter wiki](https://github.com/pwa-builder/pwa-starter/wiki/)
 
 ## Folder Structure
 

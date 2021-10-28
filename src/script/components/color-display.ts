@@ -1,178 +1,216 @@
 import { LitElement, html, css } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js'
+import { customElement, property, state } from 'lit/decorators.js';
 import { saveColor } from '../services/colors';
 import { rgbToHex } from '../utils';
 
 @customElement('color-display')
 export class ColorDisplay extends LitElement {
-    @property() color: { color: Array<number>, bitmap: ImageBitmap } | undefined;
+  @property() color: { color: Array<number>; bitmap: ImageBitmap } | undefined;
 
-    @state() colorHexString: string | undefined;
+  @state() colorHexString: string | undefined;
 
-    static styles = [
-        css`
-            :host {
-                display: block;
-            }
+  static styles = [
+    css`
+      :host {
+        display: block;
+      }
 
-            #color-display {
-                flex-direction: column;
-                justify-content: space-evenly;
-                align-items: center;
-                display: flex;
-                background: black;
-                width: 100%;
-                height: 26em;
-                position: fixed;
-                bottom: 0px;
-                z-index: 99;
-                padding-top: 1em;
+      #color-display {
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        display: flex;
+        width: 100%;
+        height: 26em;
+        position: fixed;
+        bottom: 0px;
+        z-index: 99;
+        padding-top: 1em;
 
-                border-radius: 8px 8px 0px 0px;
+        border-radius: 8px 8px 0px 0px;
 
-                animation-name: slideup;
-                animation-duration: 0.3s;
-            }
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(24px);
 
-            #color-display-color {
-                border-radius: 50%;
-                width: 6em;
-                height: 6em;
-                background-color: #3f373a;
-            }
+        animation-name: slideup;
+        animation-duration: 0.3s;
+      }
 
-            #color-display button {
-                width: 100%;
-                border-radius: 6px;
-                border: none;
-                font-weight: bold;
-                height: 2.5em;
-                font-size: medium;
-            }
+      #color-display-color {
+        font-weight: bold;
+        border-radius: 6px;
 
-            #color-display #cancel-button {
-                width: 100%;
-                border-radius: 6px;
-                border: none;
-                font-weight: bold;
-                height: 2.5em;
-                font-size: medium;
-                background: red;
-                color: white;
+        padding: 3em;
+        font-size: 2em;
+      }
 
-                margin-top: 8px;
-            }
+      #color-display button {
+        width: 100%;
+        border-radius: 6px;
+        border: none;
+        font-weight: bold;
+        height: 2.5em;
+        font-size: medium;
 
-            #color-string {
-                font-weight: bold;
-            }
+        cursor: pointer;
+      }
 
-            #preview-canvas {
-                border-radius: 6px;
-            }
+      #color-display button:hover {
+        background: darkgrey;
+        color: white;
+      }
 
-            #buttons {
-                width: 90%;
-            }
+      #color-display #cancel-button {
+        width: 100%;
+        border-radius: 6px;
+        border: none;
+        font-weight: bold;
+        height: 2.5em;
+        font-size: medium;
+        background: red;
+        color: white;
 
-            @media(min-width: 900px) {
-                #color-display {
-                    left: 15vw;
-                    right: 15vw;
-                    width: initial;
-                    bottom: 15vw;
-                    top: 15vw;
-                    border-radius: 6px;
-                    padding-bottom: 1em;
+        margin-top: 8px;
+      }
 
-                    backdrop-filter: blur(22px);
-                    background: #000000a8;
+      #color-string {
+        font-weight: bold;
+      }
 
-                    animation-name: slideupdesktop;
-                    animation-duration: 0.3s;
-                }
+      #buttons {
+        width: 90%;
+      }
 
-                #buttons {
-                    display: flex;
-                    align-items: center;
-                    justify-content: end;
-                    margin-top: 5em;
-                    width: 95%;
-                }
+      @media (min-width: 900px) {
+        #modal-wrapper {
+          backdrop-filter: blur(24px);
+          align-items: center;
+          justify-content: center;
+          display: flex;
+          background: #00000073;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          top: 0;
+          position: fixed;
+          top: 99999;
+        }
 
-                #buttons button, #color-display #cancel-button {
-                    margin-left: 10px;
-                    margin-top: 0;
-                    width: 8em;
-                }
-            }
+        #color-display {
+          background: black;
+          padding: 16px;
+          border-radius: 6px;
 
-            @keyframes slideupdesktop {
-                0% {
-                    transform: translateY(20%);
-                    opacity: 0;
-                }
-                100% {
-                    transform: translateY(0);
-                    opacity: initial;
-                }
-            }
+          position: initial;
+          width: initial;
+          height: initial;
 
-            @keyframes slideup {
-                0% {
-                    transform: translateY(100%);
-                }
-                100% {
-                    transform: translateY(0);
-                }
-            }
-        `
-    ];
+          justify-content: center;
+          align-items: center;
+          display: flex;
 
-    updated(changedProperties: any) {
-        if (changedProperties.has('color')) {
-            if (this.color) {
-                console.log('this.color', this.color);
+          animation-name: slideupdesktop;
+          animation-duration: 0.3s;
+        }
 
-                this.colorHexString = rgbToHex(this.color.color[0], this.color.color[1], this.color.color[2])
+        #color-display-color {
+          padding: 4em;
+          font-size: 2em;
+        }
 
-                const canvas = this.shadowRoot?.querySelector('#preview-canvas') as HTMLCanvasElement;
-                const ctx = canvas.getContext('2d');
-                ctx?.drawImage(this.color.bitmap, 0, 0);
-            }
+        #buttons {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: 5em;
+          width: 95%;
+        }
+
+        #buttons button,
+        #color-display #cancel-button {
+          margin-left: 10px;
+          margin-top: 0;
+          width: 8em;
         }
       }
 
-    saveTheColor() {
-        if (this.color) {
-            saveColor(this.color);
-
-            this.color = undefined;
+      @media (min-width: 1200px) {
+        #color-display {
+          inset: 14em 22em 0em 22em;
         }
+      }
+
+      @keyframes slideupdesktop {
+        0% {
+          transform: translateY(20%);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: initial;
+        }
+      }
+
+      @keyframes slideup {
+        0% {
+          transform: translateY(100%);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+    `,
+  ];
+
+  updated(changedProperties: any) {
+    if (changedProperties.has('color')) {
+      if (this.color) {
+        console.log('this.color', this.color);
+
+        this.colorHexString = rgbToHex(
+          this.color.color[0],
+          this.color.color[1],
+          this.color.color[2]
+        );
+      }
     }
+  }
 
-    cancel() {
-        this.color = undefined;
+  saveTheColor() {
+    if (this.color) {
+      saveColor(this.color);
+
+      this.color = undefined;
     }
+  }
 
-    render() {
-        if (this.color) {
-            return html`
-            <div id="color-display">
-                <div id="color-display-color" style="background-color: ${this.colorHexString}"></div>
-                <span id="color-string">${this.colorHexString}</span>
+  cancel() {
+    this.color = undefined;
+  }
 
-                <canvas id="preview-canvas"></canvas>
-
-                <div id="buttons">
-                  <button @click="${() => this.saveTheColor()}">Save Color</button>
-                  <button id="cancel-button" @click="${() => this.cancel()}">Cancel</button>
-                </div>
+  render() {
+    if (this.color) {
+      return html`
+        <div id="modal-wrapper">
+          <div id="color-display">
+            <div
+              id="color-display-color"
+              style="background-color: ${this.colorHexString}"
+            >
+              ${this.colorHexString}
             </div>
-            `;
-        }
-        else {
-            return html``;
-        }
+
+            <div id="buttons">
+              <button @click="${() => this.saveTheColor()}">Save Color</button>
+              <button id="cancel-button" @click="${() => this.cancel()}">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    } else {
+      return null;
     }
+  }
 }

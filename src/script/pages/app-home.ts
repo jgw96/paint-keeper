@@ -1,7 +1,6 @@
 import { LitElement, css, html } from 'lit';
 import { property, customElement, state } from 'lit/decorators.js';
 
-
 // For more info on the @pwabuilder/pwainstall component click here https://github.com/pwa-builder/pwa-install
 import '@pwabuilder/pwainstall';
 
@@ -14,7 +13,9 @@ export class AppHome extends LitElement {
   // check out this link https://lit.dev/docs/components/properties/
   @property() message = 'Welcome!';
 
-  @state() colorPicked: { color: Array<number>, bitmap: ImageBitmap } | undefined;
+  @state() colorPicked:
+    | { color: Array<number>; bitmap: ImageBitmap }
+    | undefined;
 
   static get styles() {
     return css`
@@ -52,7 +53,7 @@ export class AppHome extends LitElement {
     }
   }
 
-  handleColor(details: { color: Array<number>, bitmap: ImageBitmap }) {
+  handleColor(details: { color: Array<number>; bitmap: ImageBitmap }) {
     console.log('color from event', details);
     this.colorPicked = details;
   }
@@ -62,7 +63,10 @@ export class AppHome extends LitElement {
       <div>
         <a id="saved-colors" href="/about">My Saved Colors</a>
 
-        <app-camera @color-saved="${(event: CustomEvent) => this.handleColor(event.detail)}"></app-camera>
+        <app-camera
+          @color-saved="${(event: CustomEvent) =>
+            this.handleColor(event.detail)}"
+        ></app-camera>
         <color-display .color="${this.colorPicked}"></color-display>
         <!--<pwa-install>Install PWA Starter</pwa-install>-->
       </div>

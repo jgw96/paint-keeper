@@ -6,7 +6,6 @@ import { styleMap } from 'lit/directives/style-map.js';
 
 @customElement('app-about')
 export class AppAbout extends LitElement {
-
   @state() cards: any[] | undefined;
 
   static get styles() {
@@ -30,50 +29,54 @@ export class AppAbout extends LitElement {
       }
 
       #color-display-color {
-          border-radius: 50%;
-          width: 6em;
-          height: 6em;
-          background-color: #3f373a;
+        border-radius: 6px;
+        width: 86%;
+
+        height: 12em;
       }
 
       .color-card button {
-          width: 100%;
-          border-radius: 6px;
-          border: none;
-          font-weight: bold;
-          height: 2.5em;
-          font-size: medium;
+        width: 100%;
+        border-radius: 6px;
+        border: none;
+        font-weight: bold;
+        height: 2.5em;
+        font-size: medium;
+
+        cursor: pointer;
+      }
+
+      .color-card button:hover {
+        background: darkgrey;
+        color: white;
       }
 
       .color-card #cancel-button {
-          width: 100%;
-          border-radius: 6px;
-          border: none;
-          font-weight: bold;
-          height: 2.5em;
-          font-size: medium;
-          background: red;
-          color: white;
+        width: 100%;
+        border-radius: 6px;
+        border: none;
+        font-weight: bold;
+        height: 2.5em;
+        font-size: medium;
+        background: red;
+        color: white;
 
-          margin-top: 8px;
+        margin-top: 8px;
       }
 
       #color-string {
-          font-weight: bold;
-      }
-
-      #preview-canvas {
-          border-radius: 6px;
+        font-weight: bold;
       }
 
       #buttons {
-          width: 90%;
+        width: 90%;
       }
 
       #bottom-bar {
         position: fixed;
         bottom: 0;
-        background: #181818;
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(24px);
         left: 0;
         right: 0;
         display: flex;
@@ -98,9 +101,14 @@ export class AppAbout extends LitElement {
         background: #efefef;
       }
 
+      #bottom-bar a:hover {
+        background: darkgrey;
+        color: white;
+      }
+
       @media (min-width: 900px) {
         #wrapper {
-          margin-top: 5em;
+          margin-top: 4em;
           display: grid;
           grid-template-columns: auto auto auto auto;
         }
@@ -133,20 +141,23 @@ export class AppAbout extends LitElement {
   render() {
     return html`
       <div id="wrapper">
-        ${
-          this.cards?.map((card) => {
-            return html`
+        ${this.cards?.map((card) => {
+          return html`
             <div class="color-card">
-                <div id="color-display-color" style=${styleMap({ backgroundColor: card.color })}></div>
-                <p id="color-string">${card.color}</p>
+              <div
+                id="color-display-color"
+                style=${styleMap({ backgroundColor: card.color })}
+              ></div>
+              <p id="color-string">${card.color}</p>
 
-                <div id="buttons">
-                  <button @click="${() => this.copyColor(card.color)}">Copy Hex Code</button>
-                </div>
+              <div id="buttons">
+                <button @click="${() => this.copyColor(card.color)}">
+                  Copy Hex Code
+                </button>
+              </div>
             </div>
-            `
-          })
-        }
+          `;
+        })}
 
         <div id="bottom-bar">
           <a href="/">Back</a>
