@@ -25,12 +25,6 @@
     <!-- Imports the manifest to represent the web application. A web app must have a manifest to be a PWA. -->
     <link rel="manifest" href="manifest.json" />
 
-    <!-- Microsoft Fast Components https://www.fast.design/docs/components/getting-started-->
-    <script
-      type="module"
-      src="https://unpkg.com/@microsoft/fast-components"
-    ></script>
-
     <!-- A stylesheet to design the pages. -->
     <link href="styles/global.css" rel="stylesheet" />
 
@@ -39,10 +33,7 @@
   </head>
 
   <body>
-    <!-- Our app-index web component. This component is defined in src/pages/app-index.ts-->
-    <fast-design-system-provider use-defaults>
-      <app-index></app-index>
-    </fast-design-system-provider>
+    <app-index></app-index>
 
     <script
       type="module"
@@ -54,7 +45,5 @@
     <script>
       navigator.serviceWorker.register('/pwabuilder-sw.js');
     </script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
   </body>
 </html>

@@ -8,6 +8,7 @@ import '../components/controls';
 export class Camera extends LitElement {
   @state() stream: MediaStream | undefined;
   @state() imageCapture: any | undefined;
+  @state() worker: any | undefined;
 
   static styles = [
     css`
@@ -73,6 +74,15 @@ export class Camera extends LitElement {
   firstUpdated() {
     try {
       this.initCamera();
+
+      window.requestIdleCallback(() => {
+        this.worker = new Worker(new URL("../color-worker", import.meta.url), {
+          type: "module"
+        });
+        console.log(this.worker);
+      }, {
+        timeout: 1000
+      });
     } catch (err) {
       console.error(`Error getting camera access: ${err}`);
     }
@@ -101,16 +111,19 @@ export class Camera extends LitElement {
     // take image with imageCapture api
     const bitmap = await this.imageCapture.grabFrame();
 
-    const colorThief = new (window as any).ColorThief();
-    const color = colorThief.getColor(bitmap);
+    if (this.worker) {
+      this.worker.onmessage = (e: any) => {
+        const color = e.data;
+        console.log(color);
 
-    console.log(color);
-
-    this.dispatchEvent(
-      new CustomEvent('color-saved', {
-        detail: { color: color, bitmap: bitmap },
-      })
-    );
+        this.dispatchEvent(
+          new CustomEvent('color-saved', {
+            detail: { color: [color.r, color.g, color.b], bitmap: bitmap },
+          })
+        );
+      }
+      this.worker.postMessage(bitmap);
+    }
   }
 
   async openFromFile() {
@@ -119,17 +132,19 @@ export class Camera extends LitElement {
     });
 
     const bitmap = await createImageBitmap(blob);
+    if (this.worker) {
+      this.worker.onmessage = (e: any) => {
+        const color = e.data;
+        console.log(color);
 
-    const colorThief = new (window as any).ColorThief();
-    const color = colorThief.getColor(bitmap);
-
-    console.log(color);
-
-    this.dispatchEvent(
-      new CustomEvent('color-saved', {
-        detail: { color: color, bitmap: bitmap },
-      })
-    );
+        this.dispatchEvent(
+          new CustomEvent('color-saved', {
+            detail: { color: [color.r, color.g, color.b], bitmap: bitmap },
+          })
+        );
+      }
+      this.worker.postMessage(bitmap);
+    }
   }
 
   render() {

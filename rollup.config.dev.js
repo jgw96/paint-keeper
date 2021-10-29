@@ -3,6 +3,7 @@ import html from '@open-wc/rollup-plugin-html';
 import copy from 'rollup-plugin-copy';
 import replace from '@rollup/plugin-replace';
 import typescript from '@rollup/plugin-typescript';
+import OMT from "@surma/rollup-plugin-off-main-thread";
 
 export default {
   input: 'index.html',
@@ -18,6 +19,7 @@ export default {
     typescript({
       tsconfig: 'tsconfig.dev.json',
     }),
+    OMT(),
     replace({
       'preventAssignment': true,
       'process.env.NODE_ENV': JSON.stringify(
