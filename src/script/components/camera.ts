@@ -1,4 +1,3 @@
-import { fileOpen } from 'browser-fs-access';
 import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
@@ -127,7 +126,9 @@ export class Camera extends LitElement {
   }
 
   async openFromFile() {
-    const blob = await fileOpen({
+    const module = await import("browser-fs-access");
+
+    const blob = await module.fileOpen({
       mimeTypes: ['image/*'],
     });
 

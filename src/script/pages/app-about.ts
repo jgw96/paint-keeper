@@ -285,7 +285,7 @@ export class AppAbout extends LitElement {
 
         ul {
           display: grid;
-          grid-template-columns: auto auto auto auto;
+          grid-template-columns: 25% 25% 25% 24%;
         }
 
         #bottom-bar {

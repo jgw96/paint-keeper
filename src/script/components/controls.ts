@@ -34,6 +34,10 @@ export class Controls extends LitElement {
       #control-bar button ion-icon {
         font-size: 2em;
       }
+
+      #folder-icon {
+        width: 2em;
+      }
     `,
   ];
 
@@ -45,7 +49,7 @@ export class Controls extends LitElement {
     return html`
       <div id="control-bar">
         <button @click="${() => this.openFromFile()}">
-          <ion-icon name="image-outline"></ion-icon>
+          <img id="folder-icon" src="assets/icons/folder-outline.svg" />
         </button>
       </div>
     `;
