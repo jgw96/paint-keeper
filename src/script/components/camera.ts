@@ -147,6 +147,10 @@ export class Camera extends LitElement {
     }
   }
 
+  disconnectedCallback() {
+    this.worker?.terminate();
+  }
+
   render() {
     return html`
       <app-controls @open-file="${() => this.openFromFile()}"></app-controls>

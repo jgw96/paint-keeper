@@ -140,6 +140,14 @@ export class ColorDisplay extends LitElement {
         }
       }
 
+      @media (screen-spanning: single-fold-vertical) {
+        #modal-wrapper {
+          right: 0px;
+          left: env(fold-left);
+          width: 52%;
+        }
+      }
+
       @keyframes slideupdesktop {
         0% {
           transform: translateY(20%);

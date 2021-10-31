@@ -68,7 +68,6 @@ export class AppHome extends LitElement {
             this.handleColor(event.detail)}"
         ></app-camera>
         <color-display .color="${this.colorPicked}"></color-display>
-        <!--<pwa-install>Install PWA Starter</pwa-install>-->
       </div>
     `;
   }

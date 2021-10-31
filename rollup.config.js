@@ -5,6 +5,7 @@ import replace from '@rollup/plugin-replace';
 import strip from '@rollup/plugin-strip';
 import copy from 'rollup-plugin-copy';
 import typescript from '@rollup/plugin-typescript';
+import OMT from "@surma/rollup-plugin-off-main-thread";
 
 export default {
   input: 'index.html',
@@ -26,6 +27,7 @@ export default {
     typescript({
       tsconfig: 'tsconfig.json',
     }),
+    OMT(),
     terser(),
     strip({
       functions: ['console.log'],
