@@ -374,7 +374,7 @@
       "short_name": "Open Colors",
       "description": "View all of your saved colors.",
       "url": "/about",
-      "icons": [{ "src": "/assets/icons/icon_192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "assets/icons/android/android-launchericon-192-192.png", "sizes": "192x192" }]
     }
   ]
 }
