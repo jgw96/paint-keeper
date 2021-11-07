@@ -13,6 +13,11 @@ export class Controls extends LitElement {
         right: 8em;
       }
 
+      #control-bar {
+        animation-name: slideup;
+        animation-duration: 300ms;
+      }
+
       #control-bar button {
         margin-right: 4px;
         border-radius: 6px;
@@ -37,6 +42,15 @@ export class Controls extends LitElement {
 
       #folder-icon {
         width: 2em;
+      }
+
+      @keyframes slideup {
+        from {
+          transform: translateY(100%);
+        }
+        to {
+          transform: translateY(0);
+        }
       }
     `,
   ];

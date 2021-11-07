@@ -11,8 +11,9 @@ body {
   font-family: var(--font-family);
   padding: 0;
   margin: 0;
-  background: #181818;
   color: white;
+
+  background: #637187;
 }
 
 fast-design-system-provider {

@@ -42,6 +42,8 @@ export class ColorDisplay extends LitElement {
 
         padding: 3em;
         font-size: 2em;
+
+        padding: 6em;
       }
 
       #color-display button {
@@ -132,11 +134,39 @@ export class ColorDisplay extends LitElement {
           margin-top: 0;
           width: 8em;
         }
-      }
 
-      @media (min-width: 1200px) {
+        #save-button, #share-button {
+          background: #bf89cd;
+          color: white;
+        }
+
         #color-display {
           inset: 14em 22em 0em 22em;
+
+          height: auto;
+          padding-top: 2em;
+          padding-left: 2em;
+          padding-right: 2em;
+          width: initial;
+        }
+
+        #color-display-color {
+          width: 18em;
+          text-align: center;
+
+          height: 5em;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        #color-display #buttons {
+          justify-content: space-between;
+          width: 100%;
+        }
+
+        #positive-actions #share-button {
+          background: #637187;
         }
       }
 
@@ -192,6 +222,23 @@ export class ColorDisplay extends LitElement {
     }
   }
 
+  async shareTheColor() {
+    if (this.color) {
+
+      try {
+        // share the color with the web share api
+        await navigator.share({
+          title: 'Color',
+          text: this.color.toString(),
+          url: location.href
+        });
+      }
+      catch (err) {
+        console.error(err);
+      }
+    }
+  }
+
   cancel() {
     this.color = undefined;
   }
@@ -209,10 +256,14 @@ export class ColorDisplay extends LitElement {
             </div>
 
             <div id="buttons">
-              <button @click="${() => this.saveTheColor()}">Save Color</button>
               <button id="cancel-button" @click="${() => this.cancel()}">
                 Cancel
               </button>
+
+              <div id="positive-actions">
+                <button id="share-button" @click="${() => this.shareTheColor()}">Share Color</button>
+                <button id="save-button" @click="${() => this.saveTheColor()}">Save Color</button>
+              </div>
             </div>
           </div>
         </div>

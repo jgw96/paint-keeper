@@ -2,6 +2,8 @@ import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
 import '../components/controls';
+import '../components/getting-started';
+
 
 @customElement('app-camera')
 export class Camera extends LitElement {
@@ -38,6 +40,9 @@ export class Camera extends LitElement {
         align-items: center;
         justify-content: center;
         height: 4em;
+
+        animation-name: slideup;
+        animation-duration: 300ms;
       }
 
       #camera-actions button {
@@ -48,12 +53,76 @@ export class Camera extends LitElement {
         height: 2.5em;
         font-size: medium;
 
+        background: #bf89cd;
+        color: white;
+
         cursor: pointer;
       }
 
       #camera-actions button:hover {
         background: darkgrey;
         color: white;
+      }
+
+      #getting-started {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        margin-top: 18vh;
+        align-items: flex-start;
+        margin-left: 14vw;
+        width: fit-content;
+        height: 85vh;
+
+        animation-name: fadeup;
+        animation-duration: 300ms;
+      }
+
+      #getting-started button {
+        border-radius: 6px;
+        border: none;
+        font-weight: bold;
+        height: 2.5em;
+        font-size: medium;
+        cursor: pointer;
+        padding-left: 1em;
+        padding-right: 1em;
+
+        background: #bf89cd;
+        color: white;
+      }
+
+      #getting-started p {
+        max-width: 19em;
+
+        text-align: start;
+        font-weight: bold;
+        font-size: 2.2em;
+      }
+
+      #home-image {
+        position: absolute;
+        bottom: 12px;
+        width: 24em;
+        right: 12px;
+        opacity: 0.8;
+
+        animation-name: fadeup;
+        animation-delay: 500ms;
+        animation-duration: 300ms;
+      }
+
+      @media (max-width: 900px) {
+        #getting-started {
+          margin-top: 6em;
+          margin-left: 6vw;
+          margin-right: 4vw;
+        }
+
+        #home-image {
+          width: 16em;
+        }
       }
 
       @media (min-width: 900px) {
@@ -67,12 +136,32 @@ export class Camera extends LitElement {
           width: 8em;
         }
       }
+
+      @keyframes slideup {
+        from {
+          transform: translateY(100%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeup {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
     `,
   ];
 
   firstUpdated() {
     try {
-      this.initCamera();
+      // this.initCamera();
 
       window.requestIdleCallback(() => {
         this.worker = new Worker(new URL("../color-worker", import.meta.url), {
@@ -154,13 +243,29 @@ export class Camera extends LitElement {
 
   render() {
     return html`
-      <app-controls @open-file="${() => this.openFromFile()}"></app-controls>
+     ${this.stream ? html`<app-controls @open-file="${() => this.openFromFile()}"></app-controls>` : null}
 
       <video></video>
 
-      <div id="camera-actions">
+      ${
+        !this.stream ? html`
+          <section id="getting-started">
+            <p>Tap Get Started when your ready to start your video. You can then begin to save the colors in the world around you!</p>
+            <button @click="${() => this.initCamera()}">Get Started</button>
+          </section>
+
+          <getting-started></getting-started>
+        ` : null
+      }
+
+      ${
+        !this.stream ? html`<img id="home-image" src="/assets/home.svg" role="presentation">` : null
+      }
+
+
+      ${this.stream ? html`<div id="camera-actions">
         <button @click="${() => this.saveColor()}">Find Color</button>
-      </div>
+      </div>` : null}
     `;
   }
 }
