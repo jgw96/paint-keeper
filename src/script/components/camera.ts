@@ -2,12 +2,11 @@ import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
 import '../components/controls';
-import '../components/getting-started';
 
 
 @customElement('app-camera')
 export class Camera extends LitElement {
-  @state() stream: MediaStream | undefined;
+  @state() stream: MediaStream | string | undefined;
   @state() imageCapture: any | undefined;
   @state() worker: any | undefined;
 
@@ -159,10 +158,8 @@ export class Camera extends LitElement {
     `,
   ];
 
-  firstUpdated() {
+  async firstUpdated() {
     try {
-      // this.initCamera();
-
       window.requestIdleCallback(() => {
         this.worker = new Worker(new URL("../color-worker", import.meta.url), {
           type: "module"
@@ -253,8 +250,6 @@ export class Camera extends LitElement {
             <p>Tap Get Started when your ready to start your video. You can then begin to save the colors in the world around you!</p>
             <button @click="${() => this.initCamera()}">Get Started</button>
           </section>
-
-          <getting-started></getting-started>
         ` : null
       }
 
