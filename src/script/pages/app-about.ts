@@ -387,7 +387,7 @@ export class AppAbout extends LitElement {
         </ul>
 
         <div id="bottom-bar">
-          <a href="/">Back</a>
+          <a href="/home">Back</a>
         </div>
       </div>
     `;
